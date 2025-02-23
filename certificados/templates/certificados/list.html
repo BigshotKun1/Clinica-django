@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Certificados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        td a {
+            margin-right: 10px;
+            color: #ff5733;
+        }
+
+        td a:hover {
+            color: #e03e00;
+        }
+
+        .new-person-button, .view-roles-button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .new-person-button:hover, .view-roles-button:hover {
+            background-color: #218838;
+        }
+
+        .view-roles-button {
+            background-color: #007bff;
+        }
+
+        .view-roles-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Lista Certificados
+        </h1>
+
+        <!-- Botón de Nueva Persona -->
+             <a href="{% url 'certificados_create' %}" class="new-person-button">Agregar Certificado</a>
+    
+        <!-- Tabla de personas -->
+        <table>
+            <tr>
+                <th>Nº Certificado</th>
+                <th>Nº Atencion</th>
+                <th>Fecha</th>
+                <th>Descripcion</th>
+            </tr>
+            {% for certificado in certificados %}
+            <tr>
+                <td>{{ certificado.id_certificado }}</td>
+                <td>{{ certificado.id_atencion }}</td>
+                <td>{{ certificado.fecha_emision }}</td>
+                <td>{{ certificado.descripcion }}</td>
+                
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+</html>

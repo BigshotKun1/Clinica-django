@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Lista de Usuarios</h1>
+        <a href="{% url 'registro_usuario' %}" class="btn">Nuevo Usuario</a>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Último Login</th>
+            </tr>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.nombre_usuario }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>{{ usuario.rol }}</td>
+                <td>{{ usuario.last_login }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

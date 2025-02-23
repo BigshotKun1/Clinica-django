@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Pacientes{% endblock %}
+
+{% block content %}
+    <div class="pacientes-container">  <!-- Se cambia el nombre de la clase -->
+        <h1>Lista de Pacientes</h1>
+
+        <a href="{% url 'pacientes_create' %}" class="pacientes-button">Nuevo Paciente</a>
+
+        <table class="pacientes-table">  <!-- Se cambia la clase de la tabla -->
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>RUT</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Sexo</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Fecha Registro</th>
+                <th>Antecedentes</th>
+                <th>Fecha de Actualización</th>
+                <th>Acciones</th>
+            </tr>
+            {% for paciente in pacientes %}
+            <tr>
+                <td>{{ paciente.id_paciente }}</td>
+                <td>{{ paciente.nombre }}</td>
+                <td>{{ paciente.apellido }}</td>
+                <td>{{ paciente.rut }}</td>
+                <td>{{ paciente.fecha_nacimiento }}</td>
+                <td>{{ paciente.sexo }}</td>
+                <td>{{ paciente.telefono }}</td>
+                <td>{{ paciente.email }}</td>
+                <td>{{ paciente.fecha_registro }}</td>
+                <td>{{ paciente.antecedentes }}</td>
+                <td>{{ paciente.fecha_actualizacion }}</td>
+                <td>
+                    <a href="{% url 'pacientes_update' paciente.id_paciente %}">Editar</a> | 
+                    <a href="{% url 'pacientes_delete' paciente.id_paciente %}">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

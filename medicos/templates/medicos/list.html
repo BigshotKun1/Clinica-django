@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Medicos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        td a {
+            margin-right: 10px;
+            color: #ff5733;
+        }
+
+        td a:hover {
+            color: #e03e00;
+        }
+
+        .new-person-button, .view-roles-button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .new-person-button:hover, .view-roles-button:hover {
+            background-color: #218838;
+        }
+
+        .view-roles-button {
+            background-color: #007bff;
+        }
+
+        .view-roles-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Lista Medicos
+        </h1>
+
+        <!-- Botón de Nueva Persona -->
+             <a href="{% url 'medicos_create' %}" class="new-person-button">Agregar Medico</a>
+    
+        <!-- Tabla de personas -->
+        <table>
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Rut</th>
+                <th>Especialidad</th>
+                <th>Telefono</th>
+                <th>Sueldo</th>
+                <th>Fecha Contratacion</th>
+            </tr>
+            {% for medico in medicos %}
+            <tr>
+                <td>{{ medico.usuario }}</td>
+                <td>{{ medico.nombre }}</td>
+                <td>{{ medico.apellido }}</td>
+                <td>{{ medico.rut }}</td>
+                <td>{{ medico.especialidad}}</td>
+                <td>{{ medico.telefono }}</td>
+                <td>{{ medico.sueldo }}</td>
+                <td>{{ medico.fecha_contratacion }}</td>
+                <td>
+                    <a href="{% url 'medicos_update' medico.id %}">Editar</a> | 
+                    <a href="{% url 'medicos_delete' medico.id %}">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+</html>
