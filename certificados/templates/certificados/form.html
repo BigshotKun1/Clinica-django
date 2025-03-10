@@ -1,95 +1,49 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Certificados</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
 
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            color: #333;
-        }
+{% block title %}Formulario de Atención{% endblock %}
 
-        .container {
-            width: 60%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+{% block content %}
 
-        form {
-            margin-top: 20px;
-        }
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="border p-4 bg-white rounded shadow-sm">
+                <h2 class="mb-4 text-center">Formulario de Certificados</h2>
 
-        label {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 8px;
-            display: block;
-        }
+                <!-- Comienzo del formulario -->
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_atencion" class="form-label">Atención Realizada</label>
+                        {{ form.id_atencion|add_class:"form-control" }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción Atención</label>
+                        <!-- Mejorar la visibilidad de la descripción -->
+                        {{ form.descripcion|add_class:"form-control" }}
+                    </div>
 
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            color: #333;
-        }
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        {{ form.fecha_emision|add_class:"form-control" }}
+                    </div>
+                    <!-- Botón de submit -->
+                    <button type="submit" class="btn btn-primary w-100">Guardar</button>
+                </form>
 
-        button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        .cancel-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #dc3545;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-
-        .cancel-button:hover {
-            background-color: #c82333;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <h1>Formulario de Certificados</h1>
-
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Guardar</button>
-        </form>
-
-        <a href="{% url 'certificados_list' %}" class="cancel-button">Cancelar</a>
+                <!-- Enlace para cancelar -->
+                <div class="text-center mt-3">
+                    <a href="{% url 'certificados_list' %}" class="cancel-button">Cancelar</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-</body>
-</html>
+</div>
+
+{% endblock %}
+
+
+

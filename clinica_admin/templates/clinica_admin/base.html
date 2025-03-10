@@ -11,204 +11,145 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
-    <!--FontAwesome CDN-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
-        integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
-
-    <!--Chartjs CDN-->
+    <!-- FontAwesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.3.1/decimal.min.js"></script>
 
-    <!--Custome CSS-->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'style.css' %}">
 
-    <title>Home Page</title>
+    <title>Página Principal</title>
 </head>
 
 <body>
 
-    <!--Navbar-->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-info bg-info">
         <div class="container">
-            <a class="navbar-brand text-white" href="base.html">Clinica</a>
+            <a class="navbar-brand text-white" href="{% url 'home' %}">Clinica <i class="fa-solid fa-hospital"></i></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link text-white" href="base.html">Dashboard <span
-                                class="sr-only">(current)</span></a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link text-white" href="profile.html">Admin Profile <span
-                                class="sr-only">(current)</span></a>
+            <ul class="navbar-nav ml-auto d-flex justify-content-between align-items-center">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="nav-link text-white font-weight-bold">
+                            <p class="mb-0">Bienvenido, {{ request.user.nombre_usuario }} {{ request.user.rol }}</p>
+                        </span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Logout</a>
+                        <a class="nav-link text-white" href="{% url 'logout' %}">Logout</a>
                     </li>
-                </ul>
-
-            </div>
+                {% endif %}
+            </ul>
         </div>
     </nav>
-    <!--End Navbar-->
+    <!-- End Navbar -->
 
-    <!--Topside-->
     <div class="container">
         <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header bg-info text-white">
-                        Informacion
-                    </div>
-                    <div class="card-body">
-                        <marquee behavior="" direction="">
-                            <h3 class="my-4">Esto is the Information</h3>
-                        </marquee>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-info text-white">
                         Base de Datos
                     </div>
                     <div class="card-body">
+                        <!-- Usamos 'row' para asegurar que los elementos estén bien alineados -->
                         <div class="row">
-                            <div class="col-md-4">
-                                <a class="text-decoration-none text-dark" href="{% url 'usuario_list' %}">
-                                    <div class="card my-card shadow text-center p-3">
-                                        <h4>Usuarios <i class="fas fa-users"></i></h4>
-                                      
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a class="text-decoration-none text-dark" href="{% url 'medicos_list' %}">
-                                    <div class="card my-card shadow text-center p-3">
-                                        <h4>Medicos <i class="fas fa-box"></i></h4>
-                                     
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a class="text-decoration-none text-dark" href="order.html">
-                                    <div class="card my-card shadow text-center p-3">
-                                        <h4>Pacientes <i class="fas fa-shipping-fast"></i></h4>
-                                   
-                                    </div>
-                                </a>
-                            </div>
+                            {% if user.rol == 'admin' %}
+                                <!-- Para el admin: mostrar todas las opciones -->
+                                <div class="col-md-3 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'usuario_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Usuarios <i class="fas fa-users"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'medicos_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Medicos <i class="fas fa-user-md"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'paciente_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Pacientes <i class="fa-solid fa-people-group"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'atenciones_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Atenciones <i class="fa-solid fa-notes-medical"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% elif user.rol == 'medico' %}
+                                <!-- Para el medico: mostrar solo atenciones y pacientes -->
+                                <div class="col-md-6 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'paciente_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Pacientes <i class="fa-solid fa-people-group"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'atenciones_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Atenciones <i class="fa-solid fa-notes-medical"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% elif user.rol == 'paciente' %}
+                                <!-- Para el paciente: mostrar solo certificados -->
+                                <div class="col-md-3 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'certificados_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Certificados <i class="fa-solid fa-file-waveform"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--End Topside-->
+    
 
-    <!--Graphs-->
+    <!-- Graphs Section -->
     <div class="container">
         <div class="row my-5">
+            {% if request.user.rol == 'admin' %}
+
+            <!-- Sueldos de los Médicos Chart -->
             <div class="col-md-6">
                 <div class="bg-white">
-                    <canvas id="myChart1" width="400" height="300"></canvas>
-                    <script>
-                        var ctx = document.getElementById('myChart1').getContext('2d');
-                        var myChart1 = new Chart(ctx, {
-                            type: 'pie',
-                            data: {
-                                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                                datasets: [{
-                                    label: 'Products',
-                                    data: [12, 19, 3, 5, 2, 3],
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    yAxes: [{
-                                        ticks: {
-                                            beginAtZero: true
-                                        }
-                                    }]
-                                }
-                            }
-                        });
-                    </script>
+                    <h1 class="text-center">Sueldos de los médicos</h1>
+                    <canvas id="sueldosChart" width="400" height="300"></canvas>
                 </div>
             </div>
+
+            <!-- Atenciones realizadas por los Médicos Chart -->
             <div class="col-md-6">
                 <div class="bg-white">
-                    <canvas id="myChart" width="400" height="300"></canvas>
-                    <script>
-                        var ctx = document.getElementById('myChart').getContext('2d');
-                        var myChart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                                datasets: [{
-                                    label: 'Products',
-                                    data: [12, 19, 3, 5, 2, 3],
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    yAxes: [{
-                                        ticks: {
-                                            beginAtZero: true
-                                        }
-                                    }]
-                                }
-                            }
-                        });
-                    </script>
+                    <h1 class="text-center">Atenciones de este mes</h1>
+                    <canvas id="atencionesMedicosChart" width="400" height="300"></canvas>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
-    <!--End Graphs-->
+    <!-- End Graphs Section -->
 
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <!-- Optional JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -216,12 +157,84 @@
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-    -->
+
+    <!-- Chart.js Script -->
+    <script>
+        // Sueldos de los Médicos Chart
+        var sueldosMedicos = {{ sueldos|safe }};
+        var nombresMedicos = {{ nombres_medicos|safe }};
+        
+        var ctxSueldos = document.getElementById('sueldosChart').getContext('2d');
+        
+        var sueldosChart = new Chart(ctxSueldos, {
+            type: 'bar',
+            data: {
+                labels: nombresMedicos,
+                datasets: [{
+                    label: 'Sueldo ($)',
+                    data: sueldosMedicos,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Sueldo ($)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Médicos'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Atenciones Realizadas por los Médicos Chart
+        var atencionesRealizadas = {{ atenciones_realizadas|safe }};
+        
+        var ctxAtenciones = document.getElementById('atencionesMedicosChart').getContext('2d');
+        
+        var atencionesMedicosChart = new Chart(ctxAtenciones, {
+            type: 'bar',
+            data: {
+                labels: nombresMedicos,
+                datasets: [{
+                    label: 'Atenciones Realizadas',
+                    data: atencionesRealizadas,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Atenciones'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Médicos'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

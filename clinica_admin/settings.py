@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'atenciones',
     'certificados',
     'crispy_forms',
+    'crispy_bootstrap5',
+    'widget_tweaks',
    
 ]
 
@@ -140,5 +142,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
 

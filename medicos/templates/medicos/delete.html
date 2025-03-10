@@ -1,80 +1,25 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eliminar Medicos</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block title %}Eliminar Médico{% endblock %}
+{% block content %}
 
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            color: #333;
-        }
-
-        .container {
-            width: 60%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        p {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        button {
-            background-color: #dc3545;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #c82333;
-        }
-
-        .cancel-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-
-        .cancel-button:hover {
-            background-color: #218838;
-        }
-    </style>
-</head>
 <body>
+    <div class="row my-4">
+        <div class="col-md-6 offset-md-3">
+            <div class="border p-4 bg-white rounded shadow">
+                <h2 class="mb-4 text-center">Eliminar Médico</h2>
+                <p class="text-center">¿Estás seguro de que deseas eliminar a {{ medicos.nombre }} {{ medicos.apellido }}?</p>
 
-    <div class="container">
-        <h1>Eliminar Medicos</h1>
-        <p>¿Estás seguro de que deseas eliminar a {{ medicos.nombre }} {{ medicos.apellido }}?</p>
-
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit">Eliminar</button>
-        </form>
-
-        <a href="{% url 'medicos_list' %}" class="cancel-button">Cancelar</a>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-danger mx-2">Eliminar</button>
+                        <a href="{% url 'medicos_list' %}" class="btn btn-secondary mx-2">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
 </body>
-</html>
+
+{% endblock %}

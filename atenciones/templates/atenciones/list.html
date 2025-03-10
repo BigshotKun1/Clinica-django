@@ -1,123 +1,188 @@
-<!DOCTYPE html>
+{% load static %}
+<!doctype html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista Atenciones</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            color: #333;
-        }
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    <!-- FontAwesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
 
-        a {
-            text-decoration: none;
-            color: #007bff;
-        }
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
 
-        a:hover {
-            text-decoration: underline;
-        }
+    <!-- Custome CSS -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f8f8f8;
-            font-weight: bold;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        td a {
-            margin-right: 10px;
-            color: #ff5733;
-        }
-
-        td a:hover {
-            color: #e03e00;
-        }
-
-        .new-person-button, .view-roles-button {
-            display: inline-block;
-            margin: 20px 0;
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-
-        .new-person-button:hover, .view-roles-button:hover {
-            background-color: #218838;
-        }
-
-        .view-roles-button {
-            background-color: #007bff;
-        }
-
-        .view-roles-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Pagina Principal</title>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Lista Atenciones
-        </h1>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-info bg-info">
+        <div class="container">
+            <a class="navbar-brand text-white" href="{% url 'home' %}">Clinica <i class="fa-solid fa-hospital"></i></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+                <ul class="navbar-nav ml-auto d-flex justify-content-between align-items-center">
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="nav-link text-white font-weight-bold">
+                                <p class="mb-0">Bienvenido, {{ request.user.nombre_usuario }}</p>
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+    <!--End Navbar-->
 
-        <!-- Botón de Nueva Persona -->
-             <a href="{% url 'atenciones_create' %}" class="new-person-button">Agregar Medico</a>
-    
-        <!-- Tabla de personas -->
-        <table>
-            <tr>
-                <th>Nº Atencion</th>
-                <th>Paciente</th>
-                <th>Medico</th>
-                <th>Fecha</th>
-                <th>Valor Atencion</th>
-            </tr>
-            {% for atencion in atenciones %}
-            <tr>
-                <td>{{ atencion.id_atencion }}</td>
-                <td>{{ atencion.id_paciente }}</td>
-                <td>{{ atencion.id_medico }}</td>
-                <td>{{ atencion.fecha }}</td>
-                <td>{{ atencion.valor_atencion }}</td> 
-            </tr>
-            {% endfor %}
+    <!--Topside-->
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        Base de Datos
+                    </div>
+                    <div class="card-body">
+                        <!-- Usamos 'row' para asegurar que los elementos estén bien alineados -->
+                        <div class="row">
+                            {% if user.rol == 'admin' %}
+                                <!-- Para el admin: mostrar todas las opciones -->
+                                <div class="col-md-3 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'usuario_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Usuarios <i class="fas fa-users"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'medicos_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Medicos <i class="fas fa-user-md"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'paciente_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Pacientes <i class="fa-solid fa-people-group"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'atenciones_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Atenciones <i class="fa-solid fa-notes-medical"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% elif user.rol == 'medico' %}
+                                <!-- Para el medico: mostrar solo atenciones y pacientes -->
+                                <div class="col-md-6 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'paciente_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Pacientes <i class="fa-solid fa-people-group"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <a class="text-decoration-none text-dark" href="{% url 'atenciones_list' %}">
+                                        <div class="card my-card shadow text-center p-3">
+                                            <h4>Atenciones <i class="fa-solid fa-notes-medical"></i></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Topside-->
+
+    {% block content %}
+    <div class="container mt-5">
+        <h1>Lista Atenciones</h1>
+
+        <!-- Botones mejorados -->
+        <a href="{% url 'atenciones_create' %}" class="btn btn-primary mb-3">
+            <i class="fa-solid fa-plus-circle"></i> Nueva Atención
+        </a>
+        <a href="{% url 'certificados_create' %}" class="btn btn-success mb-3">
+            <i class="fa-solid fa-file-medical-alt"></i> Crear Certificado
+        </a>
+        <a href="{% url 'certificados_list' %}" class="btn btn-warning mb-3">
+            <i class="fa-solid fa-list-alt"></i> Ver Certificados
+        </a>
+
+        <!-- Tabla mejorada con DataTables -->
+        <table id="atencionesTable" class="table table-striped table-bordered">
+            <thead>
+                <tr class="bg-info text-white">
+                    <th>Nº Atención</th>
+                    <th>Paciente</th>
+                    <th>Médico</th>
+                    <th>Fecha</th>
+                    <th>Motivo</th>
+                    <th>Valor Atención</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for atencion in atenciones %}
+                <tr>
+                    <td>{{ atencion.id_atencion }}</td>
+                    <td>{{ atencion.id_paciente }}</td>
+                    <td>{{ atencion.id_medico }}</td>
+                    <td>{{ atencion.fecha }}</td>
+                    <td>{{ atencion.motivo }}</td>
+                    <td>{{ atencion.valor_atencion }}</td> 
+                    <td>
+                        <a href="{% url 'atenciones_update' atencion.id_atencion %}" class="btn btn-warning btn-sm">
+                            <i class="fa-solid fa-pen"></i> 
+                        </a>
+                        <a href="{% url 'atenciones_delete' atencion.id_atencion %}" class="btn btn-danger btn-sm">
+                            <i class="fa-solid fa-trash-can"></i>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
+
+    {% endblock %}
+
+    <!-- Agregar los archivos JS de jQuery y DataTables -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+
+    <!-- Inicializar DataTables -->
+    <script>
+        $(document).ready(function() {
+            $('#atencionesTable').DataTable({
+                "paging": true,  // Paginación
+                "searching": true,  // Búsqueda
+                "ordering": true,  // Ordenación
+                "info": true  // Información
+            });
+        });
+    </script>
 
 </body>
 </html>

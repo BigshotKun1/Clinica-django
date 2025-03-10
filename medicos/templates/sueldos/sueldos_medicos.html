@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Sueldos de Médicos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.3.1/decimal.min.js"></script>
+</head>
+<body>
+
+    <h1>Gráfico de Sueldos de Médicos</h1>
+    
+    <!-- Canvas para el gráfico -->
+    <canvas id="sueldosChart" width="400" height="200"></canvas>
+
+    <script>
+        var ctx = document.getElementById('sueldosChart').getContext('2d');
+        
+        // Convertir las listas Django a formato JavaScript
+        var nombres = {{ nombres|safe }};
+        var sueldos = {{ sueldos|safe }};
+        
+        // Verifica en consola los valores para asegurarse de que son correctos
+        console.log("Nombres: ", nombres);
+        console.log("Sueldos: ", sueldos);
+
+        // Convertir los sueldos a objetos Decimal para mayor precisión
+        var sueldosDecimal = sueldos.map(function(sueldo) {
+            return new Decimal(sueldo);
+        });
+        
+        // Opcional: Realiza alguna operación matemática con Decimal si es necesario
+        // Por ejemplo, redondear todos los sueldos a dos decimales
+        var sueldosRedondeados = sueldosDecimal.map(function(sueldo) {
+            return sueldo.toDecimalPlaces(2).toString();  // Redondeo a dos decimales
+        });
+
+        console.log("Sueldos redondeados: ", sueldosRedondeados);
+        
+        // Crear el gráfico
+        var sueldosChart = new Chart(ctx, {
+            type: 'bar',  // Tipo de gráfico
+            data: {
+                labels: nombres,  // Nombres de los médicos
+                datasets: [{
+                    label: 'Sueldo ($)',
+                    data: sueldosRedondeados,  // Usar los sueldos redondeados
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Color de las barras
+                    borderColor: 'rgba(75, 192, 192, 1)',  // Color del borde de las barras
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Sueldo ($)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Médico'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

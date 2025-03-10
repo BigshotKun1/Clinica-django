@@ -1,5 +1,7 @@
 from django import forms
 from .models import Paciente 
+from usuarios.models import Usuario
+
 
 class PacienteForm(forms.ModelForm):
     class Meta:
@@ -17,5 +19,9 @@ class PacienteForm(forms.ModelForm):
 class PacienteFormEdit(forms.ModelForm):
     class Meta:
         model = Paciente
-        fields = ['nombre', 'apellido', 'sexo', 'telefono', 'email', 'direccion', 'antecedentes'] 
+        fields = ['usuario', 'nombre', 'apellido', 'sexo', 'telefono', 'direccion', 'antecedentes'] 
     
+    usuario = forms.ModelChoiceField(queryset=Usuario.objects.filter(rol='paciente'), required=True)
+
+    
+

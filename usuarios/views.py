@@ -7,7 +7,7 @@ from .models import Usuario
 from django.contrib.auth import get_user_model
 from django.contrib.messages import get_messages
 
-
+@login_required
 def registro_usuario(request):
     if request.method == 'POST':
         form = RegistroUsuarioForm(request.POST)
@@ -16,11 +16,12 @@ def registro_usuario(request):
             usuario.set_password(form.cleaned_data['clave']) 
             usuario.save()
             messages.success(request, 'Usuario registrado correctamente')
-            return redirect('login')
+            return redirect('usuario_list')
             
     else:
         form = RegistroUsuarioForm()
     return render(request, 'usuarios/registro_usuario.html', {'form': form})
+
 
 def login_view(request):
     if request.method == "POST":

@@ -1,95 +1,31 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario Atencion</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
+{% extends 'dashboard/base.html' %}
+{% load static %}
 
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            color: #333;
-        }
+{% block title %}Formulario de Atención{% endblock %}
 
-        .container {
-            width: 60%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+{% block content %}
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="border p-4 bg-white rounded shadow-sm">
+                <h2 class="mb-4 text-center">Formulario de Atención</h2>
 
-        form {
-            margin-top: 20px;
-        }
+                <!-- Formulario -->
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.as_p }}
+                    </div>
+                    <!-- Botón de guardar -->
+                    <button type="submit" class="btn btn-primary w-100">Guardar</button>
+                </form>
 
-        label {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            color: #333;
-        }
-
-        button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        .cancel-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #dc3545;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-
-        .cancel-button:hover {
-            background-color: #c82333;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <h1>Formulario de Atencion</h1>
-
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Guardar</button>
-        </form>
-
-        <a href="{% url 'atenciones_list' %}" class="cancel-button">Cancelar</a>
+                <!-- Enlace de cancelación -->
+                <div class="text-center mt-3">
+                    <a href="{% url 'atenciones_list' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </div>
+        </div>
     </div>
-
-</body>
-</html>
+</div>
+{% endblock %}
